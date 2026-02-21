@@ -1,0 +1,29 @@
+      .robot-message {
+        display: flex;
+        align-items: start;
+      }
+      .user-message {
+        display: flex;
+        justify-content: end;
+
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: start;
+      }
+      .message-content {
+        max-width: 70%;
+        padding: 15px 20px;
+        border-radius: 10px;
+        background-color: rgb(238, 238, 238);
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+
+      .message-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
