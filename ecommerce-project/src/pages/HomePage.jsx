@@ -2,6 +2,7 @@ import "./homePage.css";
 import Header from "./Header";
 import axios from "axios";
 import { useEffect ,useState} from "react";
+import {formatMoney} from'../utils/money';
 
 function Homepage({ cart }) {
   const [products, setProducts] = useState([]);
@@ -54,7 +55,7 @@ function Homepage({ cart }) {
                   </div>
                 </div>
 
-                <div className="product-price">${(product.priceCents / 100).toFixed(2)}</div>
+                <div className="product-price">${formatMoney(product.priceCents)}</div>
 
                 <div className="product-quantity-container">
                   <select>

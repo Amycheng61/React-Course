@@ -10,7 +10,7 @@ function App() {
   const [cart, setCart] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/cart-items")
+      .get("/api/cart-items?expand=product")
       .then((response) => {
         //console.log("Search results for 'cart-items':", response.data);
         setCart(response.data);
