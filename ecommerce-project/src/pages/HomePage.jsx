@@ -3,9 +3,9 @@ import Header from "./Header";
 import axios from "axios";
 import { useEffect ,useState} from "react";
 
-function Homepage() {
+function Homepage({ cart }) {
   const [products, setProducts] = useState([]);
-  const[cart, setCart] = useState([]);
+
 
   useEffect(() => {
     axios.get("/api/products")
