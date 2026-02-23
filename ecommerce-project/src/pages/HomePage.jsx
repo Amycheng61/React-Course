@@ -1,12 +1,34 @@
 import "./homePage.css";
 import Header from "./Header";
-import products from "../../starting-code/data/products";
+import axios from "axios";
+import { useEffect ,useState} from "react";
 
 function Homepage() {
+  const [products, setProducts] = useState([]);
+  const[cart, setCart] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+      ;
+
+      axios.get("/api/cart-items")
+      .then((response) => {
+        //console.log("Search results for 'cart-items':", response.data);
+        setCart(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching cart items:", error);
+      });
+
+  }, []);
+
   return (
     <>
       <title>ecommerce website</title>
-      <Header />
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
