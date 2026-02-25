@@ -8,22 +8,21 @@ import axios from "axios";
 
 function App() {
   const [cart, setCart] = useState([]);
+  const loadCart = async () => {
+    const response = await axios.get("/api/cart-items?expand=product");
+    setCart(response.data);
+  };
+
   useEffect(() => {
-    axios
-      .get("/api/cart-items?expand=product")
-      .then((response) => {
-        //console.log("Search results for 'cart-items':", response.data);
-        setCart(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching cart items:", error);
-      });
+   loadCart().catch((error) => {
+      console.error("Error fetching cart items:", error);
+    });
   }, []);
   return (
     <Routes>
-      <Route index element={<Homepage cart={cart} />} />
-      <Route path="/checkout" element={<CheckoutPage cart={cart} />} />
-      <Route path="/orders" element={<OdersPage cart={cart} />} />
+      <Route index element={<Homepage cart={cart} loadCart={loadCart} />} />
+      <Route path="/checkout" element={<CheckoutPage cart={cart}   />} />
+      <Route path="/orders" element={<OdersPage cart={cart}  />} />
     </Routes>
   );
 }

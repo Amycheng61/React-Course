@@ -2,7 +2,11 @@ import "./CheckoutPage.css";
 import "./checkout-header.css";
 import OrderSummary from "./OrderSummary";
 
-function CheckoutPage({ cart }) {
+function CheckoutPage({ cart ,loadCart}) {
+    let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
   return (
     <div>
       <title>Checkout Page</title>
@@ -19,7 +23,7 @@ function CheckoutPage({ cart }) {
           <div className="checkout-header-middle-section">
             Checkout (
             <a className="return-to-home-link" href="/">
-              3 items
+              {cartQuantity} items
             </a>
             )
           </div>
@@ -32,7 +36,7 @@ function CheckoutPage({ cart }) {
 
       <div className="checkout-page">
         <div className="page-title">Review your order</div>
-        <OrderSummary cart={cart} />
+        <OrderSummary cart={cart} loadCart={loadCart} />
         <div className="checkout-grid"></div>
       </div>
     </div>
