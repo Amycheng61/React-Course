@@ -2,22 +2,31 @@ import { formatMoney } from "../../utils/money";
 import { use, useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
-import   DeliveryOptions  from "./DeliveryOptions";
+import DeliveryOptions from "./DeliveryOptions";
 
-function OrderSummary({ cart }) {
-   const [deliveryOption, setDeliveryOption] = useState([]);
+function OrderSummary({ cart, loadCart }) {
+  const [deliveryOption, setDeliveryOption] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
 
-  useEffect(() => {
-  axios
-      .get("/api/delivery-options?expand=estimatedDeliveryTime")
-      .then((response) => {
-        setDeliveryOption(response.data);
-      });
-    axios.get("/api/payment-summary").then((response) => {
-      setPaymentSummary(response.data);
+  const responseDeliveryOptions = async () => {
+    const response = await axios.get("/api/delivery-options?expand=estimatedDeliveryTime");
+    setDeliveryOption(response.data);
+  };
+
+  const responsePaymentSummary = async () => {
+    const response = await axios.get("/api/payment-summary");
+    setPaymentSummary(response.data);
+  };
+
+  useEffect( () => {
+    responseDeliveryOptions().catch((error) => {
+      console.error("Error fetching delivery options:", error);
     });
-  }, []);
+    responsePaymentSummary().catch((error) => {
+      console.error("Error fetching payment summary:", error);
+    }); 
+  }, [cart]);// Whenever the cart changes, we want to re-fetch the delivery options and payment summary, since they may have changed based on the items in the cart.
+
   return (
     <div className="order-summary">
       {cart.map((cartItem) => {
@@ -58,7 +67,11 @@ function OrderSummary({ cart }) {
                 </div>
               </div>
 
-              <DeliveryOptions  deliveryOption={deliveryOption} cartItem={cartItem}/>
+              <DeliveryOptions
+                deliveryOption={deliveryOption}
+                cartItem={cartItem}
+                loadCart={loadCart}
+              />
             </div>
           </div>
         );
