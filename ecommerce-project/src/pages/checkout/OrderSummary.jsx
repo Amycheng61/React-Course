@@ -3,6 +3,7 @@ import { use, useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import DeliveryOptions from "./DeliveryOptions";
+import { useNavigate } from "react-router"; 
 
 function OrderSummary({ cart, loadCart }) {
   const [deliveryOption, setDeliveryOption] = useState([]);
@@ -26,6 +27,15 @@ function OrderSummary({ cart, loadCart }) {
       console.error("Error fetching payment summary:", error);
     }); 
   }, [cart]);// Whenever the cart changes, we want to re-fetch the delivery options and payment summary, since they may have changed based on the items in the cart.
+ 
+  const navigate = useNavigate();
+
+  const createOrder = async () => {
+    await axios.post("/api/orders");
+    await loadCart();
+    alert("Order created successfully!");
+    navigate("/orders");
+  }
 
   return (
     <div className="order-summary">
@@ -121,7 +131,7 @@ function OrderSummary({ cart, loadCart }) {
           </div>
         </div>
 
-        <button className="place-order-button button-primary">
+        <button className="place-order-button button-primary" onClick={createOrder}>
           Place your order
         </button>
       </div>

@@ -1,11 +1,11 @@
 import "./OrdersPage.css";
 import Header from "../Header";
-import { useState, useEffect,Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { formatMoney } from "../../utils/money";
 import dayjs from "dayjs";
 
-function OdersPage({ cart }) {
+function OdersPage({ cart ,loadCart}) {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     axios
@@ -51,13 +51,22 @@ function OdersPage({ cart }) {
 
                 <div className="order-details-grid">
                   {order.products.map((product) => {
+                    const buyAgain = async () => {
+                      await axios.post("/api/cart-items", {
+                        productId: product.productId,
+                        quantity: product.quantity,
+                      });
+                      await loadCart();
+                    };
                     return (
                       <Fragment key={product.id} className="product-container">
                         <div className="product-image-container">
                           <img src={product.product.image} />
                         </div>
                         <div className="product-details">
-                          <div className="product-name">{product.product.name}</div>
+                          <div className="product-name">
+                            {product.product.name}
+                          </div>
                           <div className="product-delivery-date">
                             Arriving on:{" "}
                             {dayjs(product.estimatedDeliveryTimeMs).format(
@@ -68,7 +77,10 @@ function OdersPage({ cart }) {
                             Quantity: {product.quantity}
                           </div>
 
-                          <button className="buy-again-button button-primary">
+                          <button
+                            className="buy-again-button button-primary"
+                            onClick={buyAgain}
+                          >
                             <img
                               className="buy-again-icon"
                               src="images/icons/buy-again.png"
