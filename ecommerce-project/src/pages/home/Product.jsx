@@ -12,7 +12,7 @@ function Product({ product, loadCart }) {
     await loadCart();
   };
   return (
-    <div key={product.id} className="product-container">
+    <div key={product.id} className="product-container" data-testid="product-container" >
       <div className="product-image-container">
         <img className="product-image" 
         data-testid="product-image"
@@ -20,7 +20,7 @@ function Product({ product, loadCart }) {
         src={product.image} />
       </div>
 
-      <div className="product-name limit-text-to-2-lines">{product.name}</div>
+      <div className="product-name limit-text-to-2-lines" data-testid="product-name">{product.name}</div>
 
       <div className="product-rating-container">
         <img

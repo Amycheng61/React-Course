@@ -1,22 +1,26 @@
-import { it as test, expect, vi } from "vitest";
+import { it as test, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Product from "./Product";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 
 vi.mock("axios");
-
-test("renders product name and price", () => {
-  const product = {
-    id: 1,
-    name: "Test Product",
-    priceCents: 1999,
-    image: "test-image.jpg",
-    rating: {
+  let product ;
+  beforeEach(() => {
+    product = {
+      id: 123,
+      name: "Test Product",
+      priceCents: 1999,
+      image: "test-image.jpg",
+      rating: {
       stars: 4.5,
       count: 100,
     },
   };
+  });   
+
+test("renders product name and price", () => {
+  
 
   render(<Product product={product} loadCart={() => {}} />);
 
@@ -33,16 +37,7 @@ test("renders product name and price", () => {
 });
 
 test("add to cart button calls loadCart", async () => {
-  const product = {
-    id: 123,
-    name: "Test Product",
-    priceCents: 1999,
-    image: "test-image.jpg",
-    rating: {
-      stars: 4.5,
-      count: 100,
-    },
-  };
+
   const loadCart = vi.fn(); // We want to create a mock function for loadCart so we can test if it's called when the add to cart button is clicked
 
   render(<Product product={product} loadCart={loadCart} />);
