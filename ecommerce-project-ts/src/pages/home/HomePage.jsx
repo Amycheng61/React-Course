@@ -1,8 +1,9 @@
-import "./homePage.css";
-import Header from "../Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ProductsGrid from "./ProductsGrid";
+import Header from "../Header";
+import ProductsGrid from "../home/ProductsGrid";
+import "./homePage.css";
+
 
 function Homepage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
@@ -10,21 +11,14 @@ function Homepage({ cart, loadCart }) {
   const getHomeData = async () => {
     const response = await axios.get("/api/products");
     setProducts(response.data);
-  };
-
-  
-  const getCartItems = async () => {
-    const response = await axios.get("/api/cart-items?expand=product");
-    setCart(response.data);
+    console.log("products in Homepage:", products);
   };
 
   useEffect(() => {
     getHomeData().catch((error) => {
       console.error("Error fetching home data:", error);
     });
-    getCartItems().catch((error) => {
-      console.error("Error fetching cart items:", error);
-    });
+  
   }, []);
 
   return (

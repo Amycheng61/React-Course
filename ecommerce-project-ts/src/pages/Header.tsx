@@ -7,9 +7,11 @@ type HeaderProps = {
 
 function Header({ cart }: HeaderProps) {
   let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+  if (cart) {
+    cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
+    });
+  }
 
   return (
     <div className="header">
@@ -29,6 +31,9 @@ function Header({ cart }: HeaderProps) {
       </div>
 
       <div className="right-section">
+           <Link className="cart-link header-link" to="/login">
+          <span className="login-text">Login</span>
+        </Link>
         <Link className="orders-link header-link" to="/orders">
           <span className="orders-text">Orders</span>
         </Link>
